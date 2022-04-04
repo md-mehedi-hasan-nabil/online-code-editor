@@ -1,0 +1,25 @@
+{
+  "name": "server-side",
+  "version": "1.0.0",
+  "description": "code compiler with node js",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com"
+  },
+  "author": "Md. Mehedi Hasan Nabil",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "body-parser": "^1.20.0",
+    "compilex": "^0.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "http-errors": "^2.0.0"
+  }
+}
