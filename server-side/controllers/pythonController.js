@@ -1,11 +1,12 @@
 const compiler = require("compilex");
 const os = require("os");
+const createError = require("http-errors");
 
 function pythonController(req, res, next) {
   const options = { stats: true };
   compiler.init(options);
 
-  let envData;
+  let envData = {};
   const code = req.body.editorCode;
 
   // for windows
@@ -24,7 +25,7 @@ function pythonController(req, res, next) {
   }
 
   compiler.compilePython(envData, code, function (data) {
-    console.log(data)
+    console.log(data);
     res.send(data);
   });
 }

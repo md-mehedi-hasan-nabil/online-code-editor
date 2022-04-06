@@ -5,6 +5,7 @@ export default function Header({
   theme,
   changeLanguage,
   runCode,
+  openDialog,
 }) {
   return (
     <>
@@ -63,7 +64,7 @@ export default function Header({
               )}
             </div>
           </button>
-          <button>
+          <button onClick={openDialog}>
             <div className="d-flex">
               <p>Setting</p>
 

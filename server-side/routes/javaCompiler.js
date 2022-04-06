@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const javaController = require("../controller/javaController");
+const javaController = require("../controllers/javaController");
 
 router.post("/", javaController);
 

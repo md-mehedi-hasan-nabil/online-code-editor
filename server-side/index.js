@@ -8,7 +8,7 @@ const errorHandler = require("./middleware/errorHandling");
 const notFoundHandler = require("./middleware/notFoundHandler");
 const javaCompiler = require("./routes/javaCompiler");
 const pythonCompiler = require("./routes/pythonCompiler");
-
+const cplusplusCompiler = require("./routes/cplusplusComplier");
 
 // define port number
 const port = process.env.PORT || 5000;
@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 
 app.use("/java", javaCompiler);
 app.use("/python", pythonCompiler);
+app.use("/cplusplus", cplusplusCompiler);
 
 // 404 not found handler
 app.all(notFoundHandler);

@@ -5,18 +5,26 @@
 *::before {
   margin: 0;
   padding: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 body {
+  position: relative;
   font-family: "Roboto", sans-serif !important;
   min-height: 100vh;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
   transition: all 0.5s;
 }
 
 header {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 1rem;
 }
@@ -43,14 +51,13 @@ button:hover {
 }
 
 button:active {
+  -webkit-box-shadow: 0px 0px 6px 2px #a29bfe94;
   box-shadow: 0px 0px 6px 2px #a29bfe94;
 }
 
 .output {
   width: 100%;
-  height: 30vh;
   background-color: #dfe6e9;
-  border: 5px solid #a29bfe94;
 }
 
 a {
@@ -59,6 +66,131 @@ a {
 }
 
 .d-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
+}
+
+.dialog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.dialog .setting_dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background-color: #dfe6e9;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.dialog_header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.dialog_header .close {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  background-color: #dfe6e9;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dialog_header .close:hover {
+  background-color: #d2d2d2;
+}
+
+/* .dialog_contant {
+} */
+
+/* react-split-it css */
+.split-horizontal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.split-vertical {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+}
+
+.gutter {
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-flex: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+  background: gray;
+}
+
+.gutter-horizontal {
+  cursor: col-resize;
+}
+
+.gutter-vertical {
+  cursor: row-resize;
+}
+
+.gutter:hover {
+  background: #8cf;
+}
+
+.gutter-dragging:hover {
+  background: cyan;
+}
+
+.pane {
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  position: relative;
+}
+
+.pane-dragging {
+  overflow: hidden;
+}
+
+.simple-vertical {
+  height: 80vh;
 }
