@@ -3,7 +3,7 @@ const createError = require("http-errors");
 function notFoundHandler(req, res, next) {
   next(
     createError(404, {
-      message: "404 not found😴",
+      error: "404 not found😴",
     })
   );
 }

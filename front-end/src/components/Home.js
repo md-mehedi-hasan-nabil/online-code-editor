@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import axios from "axios";
-import Split from "react-split-it";
-import Output from "./Output";
 import CodeEditor from "./CodeEditor";
+import Dialog from "./Dialog";
 
 export default function Home() {
   const [theme, setTheme] = useState("vs-dark");
   const [editorCode, setEditorCode] = useState("");
   const [validateMessage, setValidateMessage] = useState([]);
-  const [editorInfo, seteditorInfo] = useState({
-    language: "javascript",
-    value: "console.log('Hello world')",
+  const [editorInfo, setEditorInfo] = useState({
+    language: "python",
+    value: "print('Hello world')",
   });
-  const [output, setOuput] = useState("");
+  const [output, setOutput] = useState("Output: ");
   const [dialog, setDialog] = useState(false);
+  const [takeInput, setTakeInput] = useState(false);
 
   // change code editor color
   function changeTheme() {
@@ -32,57 +32,74 @@ export default function Home() {
       value = "print('Hello world')";
     } else if (e.target.value === "java") {
       value = `public class Main {
-        public static void main(String[] args) {
-          System.out.println("Hello World");
-        }
-      }`;
-    } else if (e.target.value === "c") {
-      value = `#include <stdio.h>
-        int main() {
-        printf("Hello, World!");
-        return 0;
+    public static void main(String[] args) {
+        System.out.println("Hello World");
     }
-      `;
+}`;
+    } else if (e.target.value === "cpp") {
+      value = `
+#include <stdio.h>
+    int main() {
+    printf("Hello, World!");
+    return 0;
+}`;
     } else {
-      value = "console.log('Hello world')";
+      value = `
+namespace HelloWorld
+{
+    class Hello {         
+        static void Main(string[] args)
+        {
+            System.Console.WriteLine("Hello World!");
+        }
     }
-    seteditorInfo({
+}`;
+    }
+    setEditorInfo({
       language: e.target.value,
       value: value,
     });
+    setEditorCode(value);
   }
 
-  // function handleEditorDidMount(editor, monaco) {
-  //   console.log("onMount: the editor instance:", editor);
-  //   console.log("onMount: the monaco instance:", monaco);
-  // }
+  console.log(editorInfo);
+  console.log(editorCode);
 
-  // function handleEditorWillMount(monaco) {
-  //   console.log("beforeMount: the monaco instance:", monaco);
-  // }
+  function handleEditorDidMount(editor, monaco) {
+    setEditorCode(editorInfo.value)
+  }
 
-  // function handleEditorValidation(markers) {
-  //   // model markers
-  //   markers.forEach((marker) => setValidateMessage(marker.message));
-  //   console.log(markers);
-  // }
+  function checkTakeInput(code) {
+    const { language } = editorInfo;
+    if (language === "python") {
+      const checked = code.includes("input");
+      setTakeInput(checked);
+    }
+  }
+
+  function handleEditorChange(value, event) {
+    setEditorCode(value);
+    setOutput("Output: ");
+    checkTakeInput(value);
+  }
 
   // code run and send post request to server
   function runCode() {
-    console.log(editorCode);
-    // console.log(editorInfo);
-    if (editorCode === "") {
-      alert("blank");
-      return;
-    }
     const { language } = editorInfo;
     axios
       .post(`http://localhost:5000/${language}`, {
         editorCode,
+        takeInput,
       })
       .then(function (response) {
-        setOuput("> " + response.data.output);
-        console.log(response.data);
+        if (response.data.error) {
+          const errors = response.data.error.split(",");
+          console.log(errors[1]);
+          setOutput(errors[1]);
+        } else {
+          setOutput("> " + response.data.output);
+          console.log(response.data);
+        }
       })
       .catch(function (error) {
         console.error(error);
@@ -98,7 +115,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <React.Fragment>
       <Header
         changeTheme={changeTheme}
         theme={theme}
@@ -107,36 +124,15 @@ export default function Home() {
         openDialog={openDialog}
       />
 
-      {dialog && (
-        <div className="dialog">
-          <div className="setting_dialog">
-            <div className="dialog_header">
-              <h2>Setting</h2>
-              <div className="close" onClick={openDialog}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="100%"
-                  height="100%"
-                  fill="currentColor"
-                  className="bi bi-x"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                </svg>
-              </div>
-            </div>
-            <div className="dialog_contant">dialog_contant</div>
-          </div>
-        </div>
-      )}
+      {dialog && <Dialog openDialog={openDialog} />}
 
-      <main className="classThatSpecifiesTheSizeToWorkWith simple-vertical">
-        <Split className="split-vertical" direction="vertical">
-          <CodeEditor theme={theme} />
-
-          <Output output={output} />
-        </Split>
-      </main>
-    </>
+      <CodeEditor
+        theme={theme}
+        editorInfo={editorInfo}
+        handleEditorChange={handleEditorChange}
+        handleEditorDidMount={handleEditorDidMount}
+        output={output}
+      />
+    </React.Fragment>
   );
 }

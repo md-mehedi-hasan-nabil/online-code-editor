@@ -3,11 +3,12 @@ const os = require("os");
 const createError = require("http-errors");
 
 function pythonController(req, res, next) {
+  console.log(req.body);
   const options = { stats: true };
   compiler.init(options);
 
   let envData = {};
-  const code = req.body.editorCode;
+  const { editorCode, takeInput } = req.body;
 
   // for windows
   if (os.platform() === "win32" || os.platform() === "win64") {
@@ -24,10 +25,23 @@ function pythonController(req, res, next) {
     );
   }
 
-  compiler.compilePython(envData, code, function (data) {
-    console.log(data);
-    res.send(data);
-  });
+  if (takeInput) {
+    // Python with inputs
+    let input = 5;
+    compiler.compilePythonWithInput(
+      envData,
+      editorCode,
+      input,
+      function (data) {
+        res.send(data);
+      }
+    );
+  } else {
+    compiler.compilePython(envData, editorCode, function (data) {
+      console.log(data);
+      res.send(data);
+    });
+  }
 }
 
 module.exports = pythonController;

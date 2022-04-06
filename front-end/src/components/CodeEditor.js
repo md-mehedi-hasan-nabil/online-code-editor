@@ -1,38 +1,54 @@
 import React, { useState } from "react";
 import Editor from "@monaco-editor/react";
+import Split from "react-split-it";
 
-export default function CodeEditor({theme}) {
-  const [editorInfo, seteditorInfo] = useState({
-    language: "javascript",
-    value: "console.log('Hello world')",
-  });
+export default function CodeEditor({
+  theme,
+  output,
+  editorInfo,
+  handleEditorChange,
+  handleEditorDidMount
+}) {
+  // const [value, set]
+
   const [validateMessage, setValidateMessage] = useState([]);
 
-  function handleEditorChange(value, event) {
-    seteditorInfo({
-      value: value,
-    });
+  function handleEditorValidation(markers) {
+    // model markers
+    markers.forEach((marker) => setValidateMessage(marker.message));
+    console.log(markers);
   }
 
+
+
   const options = {
-    fontSize: 28,
+    fontSize: 20,
   };
+
+  //   console.log(editorInfo)
+
   return (
     <>
-      <Editor
-        // height="60vh"
-        language={editorInfo.language}
-        value={editorInfo.value}
-        theme={theme}
-        onChange={handleEditorChange}
-        // onMount={handleEditorDidMount}
-        // beforeMount={handleEditorWillMount}
-        // onValidate={handleEditorValidation}
-        options={options}
-      />
-      <code style={{ color: "red", fontWeight: "bold" }}>
-        {validateMessage !== [] && validateMessage}
-      </code>
+      <main className="classThatSpecifiesTheSizeToWorkWith simple-vertical">
+        <Split className="split-vertical" direction="vertical">
+          <Editor
+            language={editorInfo.language}
+            value={editorInfo.value}
+            theme={theme}
+            onChange={handleEditorChange}
+            onMount={handleEditorDidMount}
+            // beforeMount={handleEditorWillMount}
+            onValidate={handleEditorValidation}
+            options={options}
+          />
+          <div>
+            <code style={{ color: "red", fontWeight: "bold" }}>
+              {validateMessage !== [] && validateMessage}
+            </code>
+            <div className="output">{output && output}</div>
+          </div>
+        </Split>
+      </main>
     </>
   );
 }
