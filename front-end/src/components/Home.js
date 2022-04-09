@@ -66,7 +66,7 @@ namespace HelloWorld
   console.log(editorCode);
 
   function handleEditorDidMount(editor, monaco) {
-    setEditorCode(editorInfo.value)
+    setEditorCode(editorInfo.value);
   }
 
   function checkTakeInput(code) {
@@ -97,7 +97,7 @@ namespace HelloWorld
           console.log(errors[1]);
           setOutput(errors[1]);
         } else {
-          setOutput("> " + response.data.output);
+          setOutput("> " + response.data.output + "\n");
           console.log(response.data);
         }
       })

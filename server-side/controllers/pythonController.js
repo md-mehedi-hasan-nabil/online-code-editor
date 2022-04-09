@@ -1,46 +1,51 @@
-const compiler = require("compilex");
+const { spawn } = require("child_process");
 const os = require("os");
-const createError = require("http-errors");
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
+const path = require("path");
 
-function pythonController(req, res, next) {
-  console.log(req.body);
-  const options = { stats: true };
-  compiler.init(options);
+async function pythonController(req, res, next) {
+  try {
+    let output;
+    const { editorCode, takeInput } = req.body;
+    // generate file name
+    const filename = uuidv4() + "-" + Date.now() + ".py";
+    // root directory and working path
+    const root_directory = path.resolve(__dirname + "../../");
+    const working_path = root_directory + "/temp/";
+    const filepath = working_path + filename;
+    // create temp folder
+    if (!fs.existsSync(working_path)) {
+      fs.mkdirSync(working_path);
+    }
+    // create python file in temp folder
+    fs.writeFileSync(filepath, editorCode);
 
-  let envData = {};
-  const { editorCode, takeInput } = req.body;
+    // run python file
+    const run = await spawn("python", [filepath]);
+    const { stdout, stderr } = run;
 
-  // for windows
-  if (os.platform() === "win32" || os.platform() === "win64") {
-    envData = { OS: "windows" };
-  } else if (os.platform() === "linux") {
-    // for linux
-    envData = { OS: "linux" };
-  } else {
-    next(
-      createError(500, {
-        message:
-          "Could not determine OS distribution. Only support windows and linux",
-      })
-    );
-  }
-
-  if (takeInput) {
-    // Python with inputs
-    let input = 5;
-    compiler.compilePythonWithInput(
-      envData,
-      editorCode,
-      input,
-      function (data) {
-        res.send(data);
-      }
-    );
-  } else {
-    compiler.compilePython(envData, editorCode, function (data) {
-      console.log(data);
-      res.send(data);
+    stdout.on("data", function (data) {
+      console.log(data.toString());
+      output = data.toString();
     });
+
+    stderr.on("data", function (data) {
+      console.log(data);
+    });
+
+    run.on("close", function (code) {
+      // check and delect python file
+      if (fs.existsSync(filepath)) {
+        fs.unlinkSync(filepath);
+      }
+      res.status(200).json({
+        output,
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 }
 
