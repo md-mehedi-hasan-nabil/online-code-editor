@@ -1,23 +1,29 @@
-import React, { useState } from "react";
-import Header from "./Header";
 import axios from "axios";
-import CodeEditor from "./CodeEditor";
-import Dialog from "./Dialog";
+import React, { useState } from "react";
+import "./App.css";
+import { ApplicationContext } from "./components/ApplicationContext";
+import CodeEditor from "./components/CodeEditor";
+import Dialog from "./components/Dialog";
+import Header from "./components/Header";
 
-export default function Home() {
-  const [theme, setTheme] = useState("vs-dark");
-  const [editorCode, setEditorCode] = useState("");
-  const [validateMessage, setValidateMessage] = useState([]);
-  const [editorInfo, setEditorInfo] = useState({
+export interface EditorInfoType {
+  language: string;
+  value: string;
+}
+
+function App(): JSX.Element {
+  const [theme, setTheme] = useState<string>("vs-dark");
+  const [editorCode, setEditorCode] = useState<string>("");
+  const [editorInfo, setEditorInfo] = useState<EditorInfoType>({
     language: "python",
     value: "print('Hello world')",
   });
-  const [output, setOutput] = useState("Output: ");
-  const [dialog, setDialog] = useState(false);
-  const [takeInput, setTakeInput] = useState(false);
+  const [output, setOutput] = useState<string>("Output: ");
+  const [dialog, setDialog] = useState<boolean>(false);
+  const [takeInput, setTakeInput] = useState<boolean>(false);
 
   // change code editor color
-  function changeTheme() {
+  function changeTheme(): void {
     if (theme === "vs-dark") {
       setTheme("vs-light");
     } else {
@@ -26,26 +32,25 @@ export default function Home() {
   }
 
   // switch language
-  function changeLanguage(e) {
+  function changeLanguage(e: React.FormEvent<EventTarget>): void {
+    let target = e.target as HTMLInputElement;
     let value = "";
-    if (e.target.value === "python") {
+    if (target.value === "python") {
       value = "print('Hello world')";
-    } else if (e.target.value === "java") {
+    } else if (target.value === "java") {
       value = `public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
     }
 }`;
-    } else if (e.target.value === "cpp") {
-      value = `
-#include <stdio.h>
+    } else if (target.value === "cpp") {
+      value = `#include <stdio.h>
     int main() {
     printf("Hello, World!");
     return 0;
 }`;
     } else {
-      value = `
-namespace HelloWorld
+      value = `namespace HelloWorld
 {
     class Hello {         
         static void Main(string[] args)
@@ -56,20 +61,21 @@ namespace HelloWorld
 }`;
     }
     setEditorInfo({
-      language: e.target.value,
+      language: target.value,
       value: value,
     });
     setEditorCode(value);
   }
 
-  console.log(editorInfo);
-  console.log(editorCode);
+  // console.log(editorInfo);
+  // console.log(editorCode);
 
-  function handleEditorDidMount(editor, monaco) {
+  function handleEditorDidMount(editor: any, monaco: any) {
+    // console.log("type::::::::" + typeof editor);
     setEditorCode(editorInfo.value);
   }
 
-  function checkTakeInput(code) {
+  function checkTakeInput(code: string) {
     const { language } = editorInfo;
     if (language === "python") {
       const checked = code.includes("input");
@@ -77,14 +83,17 @@ namespace HelloWorld
     }
   }
 
-  function handleEditorChange(value, event) {
-    setEditorCode(value);
-    setOutput("Output: ");
-    checkTakeInput(value);
+  function handleEditorChange(value: string | undefined): void {
+    if (typeof value === "string") {
+      setEditorCode(value);
+      setOutput("Output: ");
+      checkTakeInput(value);
+    }
   }
 
   // code run and send post request to server
   function runCode() {
+    console.log(editorCode, takeInput);
     const { language } = editorInfo;
     axios
       .post(`http://localhost:5000/${language}`, {
@@ -107,18 +116,25 @@ namespace HelloWorld
   }
 
   function openDialog() {
-    if (dialog) {
-      setDialog(false);
-    } else {
-      setDialog(true);
-    }
+    dialog ? setDialog(false) : setDialog(true);
   }
 
+  const options = {
+    fontSize: 20,
+    fontFamily: "Consolas",
+    cursorWidth: 12,
+  };
+
   return (
-    <React.Fragment>
+    <ApplicationContext.Provider
+      value={{
+        theme: theme,
+        dialog: dialog,
+        options: options,
+      }}
+    >
       <Header
         changeTheme={changeTheme}
-        theme={theme}
         changeLanguage={changeLanguage}
         runCode={runCode}
         openDialog={openDialog}
@@ -127,12 +143,13 @@ namespace HelloWorld
       {dialog && <Dialog openDialog={openDialog} />}
 
       <CodeEditor
-        theme={theme}
+        output={output}
         editorInfo={editorInfo}
         handleEditorChange={handleEditorChange}
         handleEditorDidMount={handleEditorDidMount}
-        output={output}
       />
-    </React.Fragment>
+    </ApplicationContext.Provider>
   );
 }
+
+export default App;

@@ -98,6 +98,16 @@ a {
   background-color: #dfe6e9;
   border-radius: 5px;
   padding: 1rem;
+  animation: dialogScale 0.8s;
+}
+
+@keyframes dialogScale {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .dialog_header {

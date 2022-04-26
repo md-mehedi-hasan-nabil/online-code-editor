@@ -1,31 +1,33 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Editor from "@monaco-editor/react";
-import Split from "react-split-it";
+import Split from "react-split";
+import { EditorInfoType } from "../App";
+import { ApplicationContext } from "./ApplicationContext";
+
+interface CodeEditorProp {
+  output: string;
+  editorInfo: EditorInfoType;
+  handleEditorChange: (value: string | undefined) => void;
+  handleEditorDidMount: (editor: any, monaco: any) => void;
+}
 
 export default function CodeEditor({
-  theme,
   output,
   editorInfo,
   handleEditorChange,
-  handleEditorDidMount
-}) {
-  // const [value, set]
-
+  handleEditorDidMount,
+}: CodeEditorProp) {
   const [validateMessage, setValidateMessage] = useState([]);
 
-  function handleEditorValidation(markers) {
+  function handleEditorValidation(markers: any) {
     // model markers
-    markers.forEach((marker) => setValidateMessage(marker.message));
+    // markers.forEach((marker) => setValidateMessage(marker.message));
     console.log(markers);
   }
 
-
-
-  const options = {
-    fontSize: 20,
-  };
-
   //   console.log(editorInfo)
+
+  const { theme, options } = useContext(ApplicationContext);
 
   return (
     <>
@@ -38,7 +40,7 @@ export default function CodeEditor({
             onChange={handleEditorChange}
             onMount={handleEditorDidMount}
             // beforeMount={handleEditorWillMount}
-            onValidate={handleEditorValidation}
+            // onValidate={handleEditorValidation}
             options={options}
           />
           <div>

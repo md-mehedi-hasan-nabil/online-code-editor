@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ApplicationContext } from "./ApplicationContext";
+
+interface HeaderProps {
+  changeTheme: () => void;
+  changeLanguage: (event: React.FormEvent<EventTarget>) => void;
+  runCode: () => void;
+  openDialog: () => void;
+}
 
 export default function Header({
   changeTheme,
-  theme,
   changeLanguage,
   runCode,
   openDialog,
-}) {
+}: HeaderProps) {
+  const { theme } = useContext(ApplicationContext);
   return (
     <header>
       <h1 className="logo">
