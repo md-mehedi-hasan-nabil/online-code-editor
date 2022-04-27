@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import Editor from "@monaco-editor/react";
 import Split from "react-split";
-import { EditorInfoType } from "../App";
-import { ApplicationContext } from "./ApplicationContext";
+import { EditorInfoType } from "./Home";
+import { ApplicationContext } from "../App";
 
 interface CodeEditorProp {
+  editorTheme: string;
   output: string;
   editorInfo: EditorInfoType;
   handleEditorChange: (value: string | undefined) => void;
@@ -12,6 +13,7 @@ interface CodeEditorProp {
 }
 
 export default function CodeEditor({
+  editorTheme,
   output,
   editorInfo,
   handleEditorChange,
@@ -27,8 +29,8 @@ export default function CodeEditor({
 
   //   console.log(editorInfo)
 
-  const { theme, options } = useContext(ApplicationContext);
-
+  const [applicationContext] = useContext(ApplicationContext);
+  console.log(applicationContext.options);
   return (
     <>
       <main className="classThatSpecifiesTheSizeToWorkWith simple-vertical">
@@ -36,14 +38,16 @@ export default function CodeEditor({
           <Editor
             language={editorInfo.language}
             value={editorInfo.value}
-            theme={theme}
+            theme={editorTheme}
             onChange={handleEditorChange}
             onMount={handleEditorDidMount}
             // beforeMount={handleEditorWillMount}
             // onValidate={handleEditorValidation}
-            options={options}
+            options={applicationContext.options}
           />
-          <div>
+          <div
+            className={applicationContext.theme === "light" ? "light" : "dark"}
+          >
             <code style={{ color: "red", fontWeight: "bold" }}>
               {validateMessage !== [] && validateMessage}
             </code>

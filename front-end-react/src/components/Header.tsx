@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { ApplicationContext } from "./ApplicationContext";
+import { ApplicationContext } from "../App";
 
 interface HeaderProps {
+  editorTheme: string;
   changeTheme: () => void;
   changeLanguage: (event: React.FormEvent<EventTarget>) => void;
   runCode: () => void;
@@ -9,23 +10,23 @@ interface HeaderProps {
 }
 
 export default function Header({
+  editorTheme,
   changeTheme,
   changeLanguage,
   runCode,
   openDialog,
 }: HeaderProps) {
-  const { theme } = useContext(ApplicationContext);
+  const [applicationContext] = useContext(ApplicationContext);
   return (
-    <header>
+    <header className={applicationContext.theme === "dark" ? "dark" : "light"}>
       <h1 className="logo">
         <a href="/">OnlineCodeEditor</a>
       </h1>
-      <div>
+      <div className={applicationContext.theme === "dark" ? "header-dark" : "header-light"}>
         <select onChange={changeLanguage}>
           <option value="python">Python</option>
           <option value="csharp">C#</option>
           <option value="java">Java</option>
-
           <option value="cpp">C++</option>
         </select>
         <button onClick={runCode}>
@@ -47,7 +48,7 @@ export default function Header({
         <button onClick={changeTheme}>
           <div className="d-flex">
             <p>Theme</p>
-            {theme === "vs-light" ? (
+            {editorTheme === "vs-light" ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -75,7 +76,6 @@ export default function Header({
         <button onClick={openDialog}>
           <div className="d-flex">
             <p>Setting</p>
-
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

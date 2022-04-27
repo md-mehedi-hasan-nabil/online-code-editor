@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ApplicationContext } from "../App";
 
 type DialogProp = {
+  // handleContext: () => void;
   openDialog: () => void;
 };
 
 export default function Dialog({ openDialog }: DialogProp) {
+  const [applicationContext, setApplicationContext] =
+    useContext(ApplicationContext);
+
+  function changeAppSetting(e: React.FormEvent<EventTarget>): void {
+    const target = e.target as HTMLSelectElement;
+    const value = target.value;
+    const name = target.name;
+    const newApplicationContext = {
+      ...applicationContext,
+    };
+
+    if (name === "theme") {
+      newApplicationContext.theme = value;
+      setApplicationContext(newApplicationContext);
+    } else if (name === "fontfamily") {
+      newApplicationContext.options.fontFamily = value;
+    }
+  }
+
   return (
     <div className="dialog">
       <div className="setting_dialog">
@@ -24,17 +45,21 @@ export default function Dialog({ openDialog }: DialogProp) {
           </div>
         </div>
         <div className="dialog_contant">
-          <div className="d-flex">
+          <div>
             <h3>App Theme</h3>
-            <select>
+            <select
+              name="theme"
+              onChange={changeAppSetting}
+              value={applicationContext.theme}
+            >
               <option value="dark">Dark</option>
               <option value="light">Light</option>
             </select>
           </div>
           <hr />
-          <div className="d-flex">
+          <div>
             <h3>Font Family</h3>
-            <select>
+            <select name="fontfamily" onChange={changeAppSetting}>
               <option value="Monaco">Monaco</option>
               <option value="Consolas">Consolas</option>
               <option value="Menlo">Menlo</option>
@@ -43,11 +68,15 @@ export default function Dialog({ openDialog }: DialogProp) {
             </select>
           </div>
           <hr />
-          <div className="d-flex">
-            <h3>Cursor Width</h3>
-            <select>
+          <div>
+            <h3>Font Size</h3>
+            <select name="fontsize" onChange={changeAppSetting}>
               <option value="12">12</option>
               <option value="14">14</option>
+              <option value="16">16</option>
+              <option value="14">18</option>
+              <option value="20">20</option>
+              <option value="22">22</option>
             </select>
           </div>
         </div>
