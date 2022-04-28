@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { ApplicationContext } from "../App";
+import { ThemeType } from "./AppContextInterfaceType";
 
 type DialogProp = {
-  // handleContext: () => void;
   openDialog: () => void;
 };
 
 export default function Dialog({ openDialog }: DialogProp) {
-  const [applicationContext, setApplicationContext] =
+  const { applicationContext, setApplicationContext } =
     useContext(ApplicationContext);
 
   function changeAppSetting(e: React.FormEvent<EventTarget>): void {
@@ -19,10 +19,13 @@ export default function Dialog({ openDialog }: DialogProp) {
     };
 
     if (name === "theme") {
-      newApplicationContext.theme = value;
+      newApplicationContext.theme = value as ThemeType;
+
       setApplicationContext(newApplicationContext);
     } else if (name === "fontfamily") {
       newApplicationContext.options.fontFamily = value;
+    } else if (name === "fontsize") {
+      newApplicationContext.options.fontSize = Number(value);
     }
   }
 
@@ -59,7 +62,11 @@ export default function Dialog({ openDialog }: DialogProp) {
           <hr />
           <div>
             <h3>Font Family</h3>
-            <select name="fontfamily" onChange={changeAppSetting}>
+            <select
+              name="fontfamily"
+              onChange={changeAppSetting}
+              value={applicationContext.options.fontFamily}
+            >
               <option value="Monaco">Monaco</option>
               <option value="Consolas">Consolas</option>
               <option value="Menlo">Menlo</option>
@@ -70,7 +77,11 @@ export default function Dialog({ openDialog }: DialogProp) {
           <hr />
           <div>
             <h3>Font Size</h3>
-            <select name="fontsize" onChange={changeAppSetting}>
+            <select
+              name="fontsize"
+              onChange={changeAppSetting}
+              value={applicationContext.options.fontSize}
+            >
               <option value="12">12</option>
               <option value="14">14</option>
               <option value="16">16</option>

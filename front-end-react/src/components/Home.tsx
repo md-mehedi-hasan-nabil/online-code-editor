@@ -16,7 +16,7 @@ function Home(): JSX.Element {
     language: "python",
     value: "print('Hello world')",
   });
-  const [output, setOutput] = useState<string>("Output: ");
+  const [output, setOutput] = useState<string>(">>");
   const [dialog, setDialog] = useState<boolean>(false);
   const [takeInput, setTakeInput] = useState<boolean>(false);
 

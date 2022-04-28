@@ -1,26 +1,34 @@
 import React, { useState, createContext } from "react";
 import "./App.css";
+import {
+  ContextValue,
+  AppContextInterface,
+  ThemeType,
+} from "./components/AppContextInterfaceType";
 import Home from "./components/Home";
 
-export const ApplicationContext = createContext({});
+const context: AppContextInterface = {
+  options: {
+    fontSize: 20,
+    fontFamily: "Consolas",
+  },
+  theme: ThemeType.LIGHT,
+};
 
-enum ThemeType {
-  LIGHT = "light",
-  DARK = "dark",
-}
+export const ApplicationContext = createContext<ContextValue>({
+  applicationContext: context,
+  setApplicationContext: () => {},
+});
 
 export default function App() {
-  const [applicationContext, setApplicationContext] = useState<object>({
-    options: {
-      fontSize: 20,
-      fontFamily: "Consolas",
-    },
-    theme: ThemeType.LIGHT,
-  });
+  const [applicationContext, setApplicationContext] =
+    useState<AppContextInterface>(context);
+
+  console.log(applicationContext);
 
   return (
     <ApplicationContext.Provider
-      value={[applicationContext, setApplicationContext]}
+      value={{ applicationContext, setApplicationContext }}
     >
       <Home />
     </ApplicationContext.Provider>

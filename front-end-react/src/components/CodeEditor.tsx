@@ -29,8 +29,8 @@ export default function CodeEditor({
 
   //   console.log(editorInfo)
 
-  const [applicationContext] = useContext(ApplicationContext);
-  console.log(applicationContext.options);
+  const { applicationContext } = useContext(ApplicationContext);
+
   return (
     <>
       <main className="classThatSpecifiesTheSizeToWorkWith simple-vertical">

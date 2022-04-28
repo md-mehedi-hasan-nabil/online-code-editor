@@ -16,13 +16,24 @@ export default function Header({
   runCode,
   openDialog,
 }: HeaderProps) {
-  const [applicationContext] = useContext(ApplicationContext);
+  const { applicationContext } = useContext(ApplicationContext);
+
   return (
-    <header className={applicationContext.theme === "dark" ? "dark" : "light"}>
+    <header
+      className={
+        (applicationContext.theme as string) === "dark" ? "dark" : "light"
+      }
+    >
       <h1 className="logo">
         <a href="/">OnlineCodeEditor</a>
       </h1>
-      <div className={applicationContext.theme === "dark" ? "header-dark" : "header-light"}>
+      <div
+        className={
+          (applicationContext.theme as string) === "dark"
+            ? "header-dark"
+            : "header-light"
+        }
+      >
         <select onChange={changeLanguage}>
           <option value="python">Python</option>
           <option value="csharp">C#</option>
