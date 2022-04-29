@@ -24,8 +24,6 @@ export default function App() {
   const [applicationContext, setApplicationContext] =
     useState<AppContextInterface>(context);
 
-  console.log(applicationContext);
-
   return (
     <ApplicationContext.Provider
       value={{ applicationContext, setApplicationContext }}

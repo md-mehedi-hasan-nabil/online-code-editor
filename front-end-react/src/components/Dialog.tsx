@@ -20,17 +20,18 @@ export default function Dialog({ openDialog }: DialogProp) {
 
     if (name === "theme") {
       newApplicationContext.theme = value as ThemeType;
-
       setApplicationContext(newApplicationContext);
     } else if (name === "fontfamily") {
       newApplicationContext.options.fontFamily = value;
+      setApplicationContext(newApplicationContext);
     } else if (name === "fontsize") {
       newApplicationContext.options.fontSize = Number(value);
+      setApplicationContext(newApplicationContext);
     }
   }
 
   return (
-    <div className="dialog">
+    <div className={applicationContext.theme === "light" ? "light dialog" : "dark dialog"}>
       <div className="setting_dialog">
         <div className="dialog_header">
           <h2>Setting</h2>
@@ -82,12 +83,12 @@ export default function Dialog({ openDialog }: DialogProp) {
               onChange={changeAppSetting}
               value={applicationContext.options.fontSize}
             >
-              <option value="12">12</option>
-              <option value="14">14</option>
-              <option value="16">16</option>
-              <option value="14">18</option>
               <option value="20">20</option>
               <option value="22">22</option>
+              <option value="24">24</option>
+              <option value="26">26</option>
+              <option value="28">28</option>
+              <option value="30">30</option>
             </select>
           </div>
         </div>

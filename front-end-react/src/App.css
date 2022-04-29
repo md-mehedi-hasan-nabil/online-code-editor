@@ -18,6 +18,29 @@ body {
   transition: all 0.5s;
 }
 
+/* button style  */
+
+button,
+select {
+  min-width: 100px;
+  height: 40px;
+  font-size: large;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin: 1px;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #ced9dd;
+}
+
+button:active {
+  -webkit-box-shadow: 0px 0px 6px 2px #a29bfe94;
+  box-shadow: 0px 0px 6px 2px #a29bfe94;
+}
+
 /* app theme style */
 
 .light {
@@ -25,20 +48,43 @@ body {
   color: #333333;
 }
 
+.light .setting_dialog {
+  background-color: #dfe6e9 !important;
+  color: #333 !important;
+}
+
 .dark {
   background-color: #333333;
   color: #ffffff;
 }
 
-.header-dark button,
-select {
+.dark .setting_dialog {
+  background-color: #333 !important;
+  color: #dfe6e9 !important;
+}
+
+.dark .setting_dialog select {
+  background-color: #333;
+  color: #dfe6e9;
+}
+
+.header-dark > select {
   background-color: #000000 !important;
   color: #ffffff;
 }
 
-.header-light button,
-select {
-  background-color: #ffffff !important;
+.header-dark > button {
+  background-color: #000000 !important;
+  color: #ffffff;
+}
+
+.header-light > select {
+  background-color: #dfe6e9 !important;
+  color: #000000;
+}
+
+.header-light > button {
+  background-color: #dfe6e9 !important;
   color: #000000;
 }
 
@@ -58,28 +104,7 @@ header {
 header .logo {
   letter-spacing: -3px;
   color: inherit !important;
-}
-
-button,
-select {
-  min-width: 100px;
-  height: 40px;
-  font-size: large;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  background-color: #dfe6e9;
-  margin: 1px;
-  text-align: center;
-}
-
-button:hover {
-  background-color: #ced9dd;
-}
-
-button:active {
-  -webkit-box-shadow: 0px 0px 6px 2px #a29bfe94;
-  box-shadow: 0px 0px 6px 2px #a29bfe94;
+  text-shadow: 0px 0px 3px #dfe6e9;
 }
 
 .output {
@@ -122,14 +147,25 @@ a {
   transform: translate(-50%, -50%);
   width: 400px;
   height: 400px;
-  background-color: #dfe6e9;
+  background-color: inherit;
   border-radius: 5px;
   padding: 1rem;
+  -webkit-box-shadow: 0px 0px 16px 3px #838383;
   box-shadow: 0px 0px 16px 3px #838383;
-  animation: dialogScale 0.8s;
+  -webkit-animation: dialogOpacity 0.8s;
+  animation: dialogOpacity 0.8s;
 }
 
-@keyframes dialogScale {
+@-webkit-keyframes dialogOpacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialogOpacity {
   from {
     opacity: 0;
   }
@@ -160,7 +196,7 @@ a {
   align-items: center;
   width: 25px;
   height: 25px;
-  background-color: #dfe6e9;
+  background-color: inherit;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -170,12 +206,18 @@ a {
 }
 
 .dialog_contant div {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 
 .dialog_contant div select {
   width: 100px;
+  background-color: inherit;
+  color: inherit;
 }
 
 /* react-split-it css */

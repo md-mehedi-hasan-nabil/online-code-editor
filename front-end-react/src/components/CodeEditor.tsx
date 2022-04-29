@@ -23,13 +23,15 @@ export default function CodeEditor({
 
   function handleEditorValidation(markers: any) {
     // model markers
-    // markers.forEach((marker) => setValidateMessage(marker.message));
-    console.log(markers);
+    markers.forEach((marker: any) => setValidateMessage(marker.message));
+    console.log(typeof markers);
   }
 
   //   console.log(editorInfo)
 
   const { applicationContext } = useContext(ApplicationContext);
+
+  // console.log(applicationContext);
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function CodeEditor({
             onChange={handleEditorChange}
             onMount={handleEditorDidMount}
             // beforeMount={handleEditorWillMount}
-            // onValidate={handleEditorValidation}
+            onValidate={handleEditorValidation}
             options={applicationContext.options}
           />
           <div
