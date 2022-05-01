@@ -1,0 +1,44 @@
+@import "colors";
+
+@mixin d-flex {
+  display: flex;
+  justify-content: space-around;
+}
+
+@mixin button_select {
+  min-width: 100px;
+  height: 40px;
+  font-size: large;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin: 1px;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+@mixin flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+// set document element color
+@mixin theme-switcher($theme) {
+  @if $theme == "light" {
+    background-color: $light-bg-primary-color;
+    color: $dark-font-primary-color;
+  } @else {
+    background-color: $dark-bg-primary-color;
+    color: $light-font-primary-color;
+  }
+}
+// set body color
+@mixin body-theme-switcher($theme) {
+  @if $theme == "light" {
+    background-color: $body-light-bg-color;
+    color: $dark-font-primary-color;
+  } @else {
+    background-color: $body-dark-bg-color;
+    color: $light-font-primary-color;
+  }
+}

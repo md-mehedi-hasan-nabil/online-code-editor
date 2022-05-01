@@ -1,0 +1,17 @@
+@import "common";
+@import "variable";
+
+button {
+  @include button_select;
+  @include theme-switcher($theme);
+  &:hover {
+    background-color: #ced9dd;
+  }
+  &:active {
+    box-shadow: 0px 0px 6px 2px #a29bfe94;
+  }
+
+  div {
+    @include d-flex;
+  }
+}

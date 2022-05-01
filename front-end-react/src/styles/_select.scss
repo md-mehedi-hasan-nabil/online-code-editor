@@ -1,0 +1,6 @@
+@import "common";
+
+select {
+  @include button_select;
+  @include theme-switcher($theme);
+}
