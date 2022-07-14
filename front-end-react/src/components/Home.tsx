@@ -16,10 +16,9 @@ function Home(): JSX.Element {
     language: "python",
     value: "print('Hello world')",
   });
-  const [output, setOutput] = useState<string>(">>");
+  const [output, setOutput] = useState<string>("");
   const [dialog, setDialog] = useState<boolean>(false);
   const [takeInput, setTakeInput] = useState<boolean>(false);
-
 
   // change code editor color
   function changeTheme(): void {
@@ -49,14 +48,11 @@ function Home(): JSX.Element {
     return 0;
 }`;
     } else {
-      value = `namespace HelloWorld
-{
-    class Hello {         
-        static void Main(string[] args)
-        {
-            System.Console.WriteLine("Hello World!");
-        }
-    }
+      value = `package main
+import ("fmt")
+
+  func main() {
+  fmt.Println("Hello World!")
 }`;
     }
     setEditorInfo({
@@ -85,7 +81,7 @@ function Home(): JSX.Element {
   function handleEditorChange(value: string | undefined): void {
     if (typeof value === "string") {
       setEditorCode(value);
-      setOutput("Output: ");
+      setOutput("");
       checkTakeInput(value);
     }
   }
@@ -105,8 +101,8 @@ function Home(): JSX.Element {
           console.log(errors[1]);
           setOutput(errors[1]);
         } else {
-          setOutput("> " + response.data.output + "\n");
-          console.log(response.data);
+          setOutput(response.data.output + "\n");
+          console.log( response.data.output);
         }
       })
       .catch(function (error) {
@@ -121,7 +117,7 @@ function Home(): JSX.Element {
   return (
     <React.Fragment>
       <Header
-      editorTheme={editorTheme}
+        editorTheme={editorTheme}
         changeTheme={changeTheme}
         changeLanguage={changeLanguage}
         runCode={runCode}

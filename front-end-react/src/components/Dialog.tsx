@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { ApplicationContext } from "../App";
-import { ThemeType } from "./AppContextInterfaceType";
-import close from "../assets/x-lg.svg";
+import React, { useContext } from 'react';
+import { ApplicationContext } from '../App';
+import { ThemeType } from './AppContextInterfaceType';
+import close from '../assets/x-lg.svg';
 
 type DialogProp = {
   openDialog: () => void;
@@ -19,33 +19,34 @@ export default function Dialog({ openDialog }: DialogProp) {
       ...applicationContext,
     };
 
-    if (name === "theme") {
+    if (name === 'theme') {
       newApplicationContext.theme = value as ThemeType;
       setApplicationContext(newApplicationContext);
-    } else if (name === "fontfamily") {
+    } else if (name === 'fontfamily') {
       newApplicationContext.options.fontFamily = value;
       setApplicationContext(newApplicationContext);
-    } else if (name === "fontsize") {
+    } else if (name === 'fontsize') {
       newApplicationContext.options.fontSize = Number(value);
       setApplicationContext(newApplicationContext);
     }
   }
 
   return (
-    <div
-      className={
-        applicationContext.theme === "light" ? "light dialog" : "dark dialog"
-      }
-    >
-      <div className="setting_dialog">
-        <div className="dialog_header">
-          <h2>Setting</h2>
-          <div className="close" onClick={openDialog}>
+    <div className="absolute inset-0 z-10 backdrop-blur-xl bg-gray-200 bg-opacity-30 dark:bg-opacity-30 dark:bg-gray-800">
+      <div
+        className="absolute rounded-lg w-1/4 h-1/2 inset-2/4 bg-gray-200 dark:bg-gray-900"
+        style={{
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <div className="flex justify-between p-2 mb-3 border-b-2 dark:border-b-gray-100 border-b-gray-900">
+          <h2 className="text-lg">Setting</h2>
+          <div className="cursor-pointer" onClick={openDialog}>
             <img src={close} alt="close" />
           </div>
         </div>
         <div className="dialog_contant">
-          <div>
+          <div className="flex justify-between">
             <h3>App Theme</h3>
             <select
               name="theme"
@@ -57,7 +58,7 @@ export default function Dialog({ openDialog }: DialogProp) {
             </select>
           </div>
           <hr />
-          <div>
+          <div className="flex justify-between">
             <h3>Font Family</h3>
             <select
               name="fontfamily"
@@ -72,7 +73,7 @@ export default function Dialog({ openDialog }: DialogProp) {
             </select>
           </div>
           <hr />
-          <div>
+          <div className="flex justify-between">
             <h3>Font Size</h3>
             <select
               name="fontsize"

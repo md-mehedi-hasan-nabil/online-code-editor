@@ -2,14 +2,12 @@ const { spawn } = require("child_process");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
-const runProgram = require("../lib/runProgram");
 
-async function javaController(req, res, next) {
+async function runProgram(editorCode, language, fileExtension) {
   try {
-    let output = "";
-    const { editorCode } = req.body;
+    let output;
     // generate file name
-    const filename = uuidv4() + "-" + Date.now() + ".java";
+    const filename = uuidv4() + "-" + Date.now() + fileExtension;
     // root directory and working path
     const root_directory = path.resolve(__dirname + "../../");
     const working_path = root_directory + "/temp/";
@@ -21,13 +19,13 @@ async function javaController(req, res, next) {
     // create python file in temp folder
     fs.writeFileSync(filepath, editorCode);
 
-    // run java file
-    const run = await spawn("java", [filepath]);
+    // run python file
+    const run = await spawn(language, [filepath]);
     const { stdout, stderr } = run;
 
     stdout.on("data", function (data) {
-      console.log(data.toString());
-      output += data.toString();
+      //console.log(data.toString());
+      output = data.toString();
     });
 
     stderr.on("data", function (error) {
@@ -35,19 +33,15 @@ async function javaController(req, res, next) {
     });
 
     run.on("close", function (code) {
-      // check and delect java file
+      // check and delect python file
       if (fs.existsSync(filepath)) {
         fs.unlinkSync(filepath);
       }
-      res.status(200).json({
-        output,
-      });
-      output = "";
+      return output;
     });
-    
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 }
 
-module.exports = javaController;
+module.exports = runProgram;

@@ -1,48 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;700&family=Poppins:wght@100;400;500;700&family=Roboto:wght@300;500;700&display=swap");
-button {
-  min-width: 100px;
-  height: 40px;
-  font-size: large;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  margin: 1px;
-  text-align: center;
-  padding: 0.5rem;
-  background-color: #dfe6e9;
-  color: #000000;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-button:hover {
-  background-color: #ced9dd;
+body {
+  position: relative;
 }
 
-button:active {
-  -webkit-box-shadow: 0px 0px 6px 2px #a29bfe94;
-          box-shadow: 0px 0px 6px 2px #a29bfe94;
-}
-
-button div {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-}
-
+button,
 select {
-  min-width: 100px;
-  height: 40px;
-  font-size: large;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  margin: 1px;
-  text-align: center;
-  padding: 0.5rem;
-  background-color: #dfe6e9;
-  color: #000000;
+  min-width: 112px;
 }
+
+/* tailwind css */
+button,
+select {
+  @apply rounded p-2 mx-1 shadow-lg text-lg bg-gray-200 hover:bg-gray-300 hover:ring-2 text-black
+                                    /* dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100; */
+}
+
 
 /* react-split-it css */
 .split-horizontal {
@@ -106,141 +85,3 @@ select {
 .simple-vertical {
   height: 90vh;
 }
-
-*,
-*::after,
-*::before {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-body {
-  position: relative;
-  font-family: "Roboto", sans-serif !important;
-  min-height: 100vh;
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
-  background-color: #ffffff;
-  color: #000000;
-}
-
-body a {
-  text-decoration: none;
-  color: inherit;
-}
-
-header {
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 1rem;
-}
-
-header .logo {
-  letter-spacing: -3px;
-  color: inherit !important;
-  text-shadow: 0px 0px 3px #dfe6e9;
-}
-
-.dialog {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #dfe6e9;
-  color: #000000;
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
-  z-index: 1;
-}
-
-.dialog .setting_dialog {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  width: 400px;
-  height: 400px;
-  background-color: #dfe6e9;
-  color: #000000;
-  border-radius: 5px;
-  padding: 1rem;
-  -webkit-box-shadow: 0px 0px 16px 3px #838383;
-          box-shadow: 0px 0px 16px 3px #838383;
-  -webkit-animation: dialogOpacity 0.8s;
-          animation: dialogOpacity 0.8s;
-}
-
-@-webkit-keyframes dialogOpacity {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes dialogOpacity {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.dialog .setting_dialog .dialog_header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.dialog .setting_dialog .dialog_header .close {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 25px;
-  height: 25px;
-  background-color: #dfe6e9;
-  color: #000000;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.dialog .setting_dialog .dialog_header .close:hover {
-  background-color: #d2d2d2;
-}
-
-.dialog .setting_dialog .dialog_contant div {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.dialog .setting_dialog .dialog_contant div select {
-  width: 100px;
-  background-color: #dfe6e9;
-  color: #000000;
-}
-/*# sourceMappingURL=App.css.map */
