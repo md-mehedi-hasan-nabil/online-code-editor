@@ -3,7 +3,6 @@ import Editor from '@monaco-editor/react';
 import Split from 'react-split';
 import { EditorInfoType } from './Home';
 import { ApplicationContext } from '../App';
-import chevronRight from '../assets/chevron-right.svg';
 
 interface CodeEditorProp {
   editorTheme: string;
@@ -44,16 +43,15 @@ export default function CodeEditor({
             theme={editorTheme}
             onChange={handleEditorChange}
             onMount={handleEditorDidMount}
-            // beforeMount={handleEditorWillMount}
             onValidate={handleEditorValidation}
             options={applicationContext.options}
           />
-          <output className="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-50 ">
+          <output className="overflow-y-scroll bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-50 ">
             <code style={{ color: 'red', fontWeight: 'bold' }}>
-              {validateMessage !== [] && validateMessage}
+              {/* {validateMessage !== [] && validateMessage} */}
             </code>
-            <div className='flex'>
-              <img width="16" src={chevronRight} alt="chevron-right" />
+            <div className="flex">
+              {'>'}
               <code className="whitespace-pre-wrap">{output && output}</code>
             </div>
           </output>

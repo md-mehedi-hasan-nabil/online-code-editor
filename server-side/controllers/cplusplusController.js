@@ -20,7 +20,7 @@ async function cplusplusController(req, res, next) {
     // create python file in temp folder
     fs.writeFileSync(filepath, editorCode);
 
-    // run python file
+    // run c++ file
     const run = await spawn("g++", [filepath]);
     const { stdout, stderr } = run;
 

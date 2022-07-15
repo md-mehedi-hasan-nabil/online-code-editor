@@ -1,8 +1,8 @@
-import axios from "axios";
-import React, { useState } from "react";
-import CodeEditor from "./CodeEditor";
-import Dialog from "./Dialog";
-import Header from "./Header";
+import axios from 'axios';
+import React, { useState } from 'react';
+import CodeEditor from './CodeEditor';
+import Dialog from './Dialog';
+import Header from './Header';
 
 export interface EditorInfoType {
   language: string;
@@ -10,38 +10,43 @@ export interface EditorInfoType {
 }
 
 function Home(): JSX.Element {
-  const [editorTheme, setEditorTheme] = useState<string>("vs-dark");
-  const [editorCode, setEditorCode] = useState<string>("");
+  const [editorTheme, setEditorTheme] = useState<string>('vs-dark');
+  const [editorCode, setEditorCode] = useState<string>('');
   const [editorInfo, setEditorInfo] = useState<EditorInfoType>({
-    language: "python",
+    language: 'python',
     value: "print('Hello world')",
   });
-  const [output, setOutput] = useState<string>("");
+  const [output, setOutput] = useState<string>('');
   const [dialog, setDialog] = useState<boolean>(false);
   const [takeInput, setTakeInput] = useState<boolean>(false);
 
   // change code editor color
   function changeTheme(): void {
-    if (editorTheme === "vs-dark") {
-      setEditorTheme("vs-light");
+    const htmlEl: HTMLHtmlElement | null = document.querySelector('html');
+    if (editorTheme === 'vs-dark' || htmlEl?.className === 'dark') {
+      setEditorTheme('vs-light');
+      htmlEl?.classList.remove('dark');
+      htmlEl?.classList.add('light');
     } else {
-      setEditorTheme("vs-dark");
+      setEditorTheme('vs-dark');
+      htmlEl?.classList.remove('light');
+      htmlEl?.classList.add('dark');
     }
   }
 
   // switch language
   function changeLanguage(e: React.FormEvent<EventTarget>): void {
     let target = e.target as HTMLInputElement;
-    let value = "";
-    if (target.value === "python") {
+    let value = '';
+    if (target.value === 'python') {
       value = "print('Hello world')";
-    } else if (target.value === "java") {
+    } else if (target.value === 'java') {
       value = `public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
     }
 }`;
-    } else if (target.value === "cpp") {
+    } else if (target.value === 'cpp') {
       value = `#include <stdio.h>
     int main() {
     printf("Hello, World!");
@@ -72,16 +77,16 @@ import ("fmt")
 
   function checkTakeInput(code: string) {
     const { language } = editorInfo;
-    if (language === "python") {
-      const checked = code.includes("input");
+    if (language === 'python') {
+      const checked = code.includes('input');
       setTakeInput(checked);
     }
   }
 
   function handleEditorChange(value: string | undefined): void {
-    if (typeof value === "string") {
+    if (typeof value === 'string') {
       setEditorCode(value);
-      setOutput("");
+      setOutput('');
       checkTakeInput(value);
     }
   }
@@ -97,12 +102,12 @@ import ("fmt")
       })
       .then(function (response) {
         if (response.data.error) {
-          const errors = response.data.error.split(",");
+          const errors = response.data.error.split(',');
           console.log(errors[1]);
           setOutput(errors[1]);
         } else {
-          setOutput(response.data.output + "\n");
-          console.log( response.data.output);
+          setOutput(response.data.output + '\n');
+          console.log(response.data.output);
         }
       })
       .catch(function (error) {
